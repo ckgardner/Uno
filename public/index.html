@@ -1,0 +1,71 @@
+<!-- Try making a fun card game (uno?), or find something interactive -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Uno!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="app">
+            <div v-if="currentPage=='home'">
+                <h1 id="homeTitle">UNO!</h1>
+                <div class="centerWrapperHome">
+                    <input id="newUserForm" type="text" placeholder="Username" v-model="newSenderName">
+                </div>
+                <div class="centerWrapperHome">
+                    <button id="getStarted" v-on:click="newUserAdd()">GET STARTED</button>
+                </div>
+            </div>
+
+            <div id="waitingWrap" v-if="currentPage=='waiting'">
+                <h1 id="waiting">Waiting for more players...</h1>
+            </div>
+
+            <div v-if="currentPage=='main'">
+                <div id="container">
+                    <div id="dWrapper1">
+                        <h3>Players in Game:</h3>
+                        <ul>
+                            <li v-for="player in players">
+                                {{player}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="specialWrapper">
+                        <h1 id="mainTitle">UNO!</h1>
+                        <div class="centerWrapper">
+                            <h3 id="currentTurn">{{currentTurn}}'s turn...</h3>
+                            <button id="pickUp" v-on:click="pickUpCard" :disabled="yourTurn == false"><h3 id="cardTitle">UNO!</h3>Pick Up a Card</button>
+                            <div id="lastCard" :style="{backgroundColor:lastCard.Color}">Last Card Played<h3 class="cardType">{{lastCard.Value}}</h3></div>
+                        </div>
+                    </div>
+                    <div id="dWrapper">
+                        <h3>Activity:</h3>
+                        <input id="sendMsgForm" type="text" placeholder="Say something..." v-model="messageToSend">
+                        <button id="sendMsgBtn" @click="sendMessage">Send</button>
+                        <ul>
+                            <li v-for="incomingMessage in incomingMessages">
+                                <strong>{{ incomingMessage.name }}</strong>
+                                {{incomingMessage.message}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="myCardsWrapper">
+                    <h2 id="cardsTitle">My Cards</h2>
+                    <ul id="myCards">
+                        <button id="myCard" v-for="card in myCards" :style="{backgroundColor:card.Color}" @click="playCard(card)" :disabled="yourTurn == false">
+                            {{card.Value}}
+                        </button>
+                    </ul>
+                </div>
+            </div>
+            
+
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
